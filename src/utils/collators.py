@@ -100,9 +100,7 @@ class Schema2TextCollator:
             for label, source_len in zip(features["labels"], source_lens, strict=True):
                 label[:source_len] = torch.tensor([-100] * source_len)
 
-        features["labels"][features["labels"] == self.tokenizer.pad_token_id] = (
-            self.label_pad_token_id
-        )
+        features["labels"][features["attention_mask"] == 0] = self.label_pad_token_id
         return features
 
 
